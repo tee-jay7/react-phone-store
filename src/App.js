@@ -2,6 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Switch, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import ProductList from "./components/ProductList";
 import Details from "./components/Details";
@@ -11,10 +12,20 @@ function App() {
   return (
     <>
       <Navbar />
-      <ProductList />
-      <Details />
-      <Cart />
-      <Default />
+      <Switch>
+        <Route exact path="/">
+          <ProductList />
+        </Route>
+        <Route path="/details">
+          <Details />
+        </Route>
+        <Route path="/cart">
+          <Cart />
+        </Route>
+        <Route>
+          <Default />
+        </Route>
+      </Switch>
     </>
   );
 }
