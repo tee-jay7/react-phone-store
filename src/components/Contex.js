@@ -9,8 +9,8 @@ export function ProductProvider(props) {
   const handleDetail = () => {
     console.log("Hello from handle detail");
   };
-  const addToCart = () => {
-    console.log("Hello from add to cart");
+  const addToCart = (id) => {
+    console.log(`id ${id} added to cart`);
   };
 
   const fetchProducts = (items) => {
