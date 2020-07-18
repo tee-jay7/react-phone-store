@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -12,7 +13,7 @@ function Product(props) {
           onClick={() => console.log("img container clicked")}
         >
           <Link to="/details">
-            <img src={img} alt="product-image" className="card-img-top" />
+            <img src={img} alt="product" className="card-img-top" />
           </Link>
           <button
             className="cart-btn"
@@ -42,6 +43,16 @@ function Product(props) {
 }
 
 export default Product;
+
+Product.propTypes = {
+  product: PropTypes.shape({
+    title: PropTypes.string,
+    inCart: PropTypes.bool,
+    img: PropTypes.string,
+    id: PropTypes.number,
+    price: PropTypes.number,
+  }).isRequired,
+};
 
 const ProductWrapper = styled.div`
   .card {

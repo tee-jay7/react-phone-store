@@ -1,10 +1,10 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 import { storeProducts, detailProduct } from "../data";
 
 const ProductContext = createContext();
 
 export function ProductProvider(props) {
-  const [products, setProducts] = useState(storeProducts);
+  const [products, setProducts] = useState([]);
   const [productDetail, setDetailProduct] = useState(detailProduct);
   const handleDetail = () => {
     console.log("Hello from handle detail");
@@ -12,6 +12,17 @@ export function ProductProvider(props) {
   const addToCart = () => {
     console.log("Hello from add to cart");
   };
+
+  const fetchProducts = (items) => {
+    let products = [];
+    items.map((item) => products.push({ ...item }));
+    // console.log(products);
+    return products;
+  };
+  useEffect(() => {
+    let products = fetchProducts(storeProducts);
+    setProducts(products);
+  }, []);
   return (
     <ProductContext.Provider
       value={{ products, setProducts, productDetail, addToCart, handleDetail }}
