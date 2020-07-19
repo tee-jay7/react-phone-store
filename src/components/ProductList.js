@@ -3,7 +3,7 @@ import Product from "./Product";
 import Title from "./Title";
 import { useProductState } from "./Contex";
 function ProductList() {
-  const state = useProductState();
+  const { products } = useProductState();
 
   return (
     <>
@@ -11,7 +11,7 @@ function ProductList() {
         <div className="container">
           <Title name="our" title="products" />
           <div className="row">
-            {state.products.map((product) => {
+            {products.map((product) => {
               return <Product key={product.id} product={product} />;
             })}
           </div>

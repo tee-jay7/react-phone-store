@@ -2,23 +2,25 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useProductState } from "./Contex";
 
 function Product(props) {
   const { id, img, title, price, inCart } = props.product;
+  const { handleDetail, addToCart, openModal, closeModal } = useProductState();
   return (
     <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
       <div className="card">
-        <div
-          className="img-container p-5"
-          onClick={() => console.log("img container clicked")}
-        >
+        <div className="img-container p-5" onClick={() => handleDetail(id)}>
           <Link to="/details">
             <img src={img} alt="product" className="card-img-top" />
           </Link>
           <button
             className="cart-btn"
-            disabled={inCart}
-            onClick={() => console.log("Added to Cart")}
+            disabled={inCart ? true : false}
+            onClick={() => {
+              addToCart(id);
+              openModal(id);
+            }}
           >
             {inCart ? (
               <p className="text-capitalize mb-0" disabled>
