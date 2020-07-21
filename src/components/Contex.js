@@ -9,6 +9,11 @@ export function ProductProvider(props) {
   const [cartItem, setCartItem] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalProduct, setModalProduct] = useState(detailProduct);
+  const [cart, setCart] = useState({
+    cartSubtotal: 0,
+    cartTax: 0,
+    cartTotal: 0,
+  });
 
   const getItem = (id) => {
     const product = products.find((item) => item.id === id);
@@ -29,6 +34,51 @@ export function ProductProvider(props) {
     setProducts(temProducts);
     setCartItem((prevState) => [...prevState, temproduct]);
   };
+  const pickProduct = (id) => {
+    const temCart = [...cartItem];
+    let selectedProduct = temCart.find((item) => item.id === id);
+    let index = temCart.indexOf(selectedProduct);
+    let product = temCart[index];
+    return [product, temCart];
+  };
+  const increment = (id) => {
+    const [product, cart] = pickProduct(id);
+    product.count = product.count + 1;
+    product.total = product.count * product.price;
+    setCartItem([...cart]);
+  };
+  const decrement = (id) => {
+    const [product, cart] = pickProduct(id);
+    product.count = product.count - 1;
+    if (product.count === 0) return removeItem(id);
+    product.total = product.count * product.price;
+    setCartItem([...cart]);
+  };
+  const removeItem = (id) => {
+    const temProducts = [...products];
+    let temCart = [...cartItem];
+    temCart = temCart.filter((item) => item.id !== id);
+    const index = temProducts.indexOf(getItem(id));
+    let removedProduct = temProducts[index];
+    removedProduct.inCart = false;
+    removedProduct.count = 0;
+    removedProduct.total = 0;
+    setProducts([...temProducts]);
+    setCartItem([...temCart]);
+  };
+  const clearCart = () => {
+    setCartItem([]);
+    let products = fetchProducts(storeProducts);
+    setProducts(products);
+  };
+  const addTotals = () => {
+    let subtotal = 0;
+    cartItem.map((item) => (subtotal += item.total));
+    const temTax = subtotal * 0.1;
+    const tax = parseFloat(temTax.toFixed(2));
+    const total = subtotal + tax;
+    setCart({ cartSubtotal: subtotal, cartTax: tax, cartTotal: total });
+  };
   const openModal = (id) => {
     const product = getItem(id);
     setModalProduct(product);
@@ -46,6 +96,10 @@ export function ProductProvider(props) {
     setProducts(products);
   }, []);
 
+  useEffect(() => {
+    addTotals();
+  }, [cartItem]);
+
   return (
     <ProductContext.Provider
       value={{
@@ -58,6 +112,12 @@ export function ProductProvider(props) {
         closeModal,
         modalOpen,
         modalProduct,
+        cartItem,
+        cart,
+        increment,
+        decrement,
+        removeItem,
+        clearCart,
       }}
     >
       {props.children}

@@ -6,7 +6,7 @@ import { useProductState } from "./Contex";
 
 function Product(props) {
   const { id, img, title, price, inCart } = props.product;
-  const { handleDetail, addToCart, openModal, closeModal } = useProductState();
+  const { handleDetail, addToCart, openModal } = useProductState();
   return (
     <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
       <div className="card">

@@ -4,7 +4,7 @@ import { useProductState } from "./Contex";
 import { ButtonContainer } from "./Button";
 
 function Details() {
-  const { productDetail, addToCart, openModal, closeModal } = useProductState();
+  const { productDetail, addToCart, openModal } = useProductState();
   const { id, title, company, img, info, price, inCart } = productDetail;
   return (
     <div className="container py-5">
@@ -28,7 +28,7 @@ function Details() {
           </h4>
           <h4 className="text-blue">
             <strong>
-              price: <span>Ghs</span>
+              price: <span>Ghs </span>
               {price}
             </strong>
           </h4>
