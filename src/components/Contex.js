@@ -96,9 +96,7 @@ export function ProductProvider(props) {
     setProducts(products);
   }, []);
 
-  useEffect(() => {
-    addTotals();
-  }, [cartItem]);
+  useEffect(addTotals, [cartItem]);
 
   return (
     <ProductContext.Provider
